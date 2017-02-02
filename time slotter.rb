@@ -59,10 +59,9 @@ class TimeSlotter
     break_time = gets.chomp
     print "How long should the break be? (mins): "
     break_duration = gets.to_i
-    breaks[break_time] = break_duration
-    print_list(breaks)
+    TS.breaks[break_time] = break_duration
+    TS.print_list(@students, @start, @duration, @breaks)
   end
-
 
 
   def get_duration()
@@ -92,13 +91,15 @@ end
 
 # ------------
 
-students = students.shuffle()
+TS = TimeSlotter.new()
+TS.students = TS.students.shuffle()
+
 
 puts "*** Time Slotter! ***"
-duration = get_duration()
-start_date_time = get_start_time()
-print_list(students, start_date_time, duration, breaks)
-get_break_details(breaks)
+TS.duration = TS.get_duration()
+TS.start = TS.get_start_time()
+TS.print_list(TS.students, TS.start, TS.duration, TS.breaks)
+TS.get_break_details(breaks)
 
 
 
