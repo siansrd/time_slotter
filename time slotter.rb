@@ -1,48 +1,94 @@
 require 'time'
 
-students = %w( 
+class TimeSlotter
 
-)
+  attr_accessor :start, :duration, :breaks, :students
 
-def print_list(names_list, start, duration, break_time_1 = nil, break_1_duration = nil, break_time_2 = nil, break_time_3 = nil)
+  def initialize()
+    @start = nil
+    @duration = nil
+    @breaks = {}
+    @students = %w( 
+      Suzanne
+      Bob
+      Adam
+      Graeme
+      Robert
+      Lewis
+      Chris
+      Ewen
+      Ross
+      Douglas
+      Colin
+      Rob
+      David
+      Leon
+      Alice
+      Josef
+      Kim
+      Richard
+      Ferdinando
+      Simon
+    )
+  end
 
-  names_list.each do |name|
 
-    start_time = date_to_time(start)
+  def print_list(names_list, start, duration, breaks)
 
-    if (break_time_1 == start_time || break_time_2 == start_time || break_time_3 == start_time)
-      puts "#{start_time}: BREAK"
-      start = start + break_1_duration*60  
+    names_list.each do |name|
+
       start_time = date_to_time(start)
-      puts "#{start_time}: #{name}"
 
-    else
+      breaks.each do |key, value|
+        if key == start_time 
+          puts "#{start_time}: BREAK"
+          start = start + value*60
+          start_time = date_to_time(start)
+        end
+      end
+
       puts "#{start_time}: #{name}"
+      start = start + duration*60  
     end
 
-    start = start + duration*60  
-
+    get_break_details(breaks)
   end
+
+  def get_break_details(breaks)
+    print "Want to add a break? Enter time (in 24hr) : "
+    break_time = gets.chomp
+    print "How long should the break be? (mins): "
+    break_duration = gets.to_i
+    breaks[break_time] = break_duration
+    print_list(breaks)
+  end
+
+
+
+  def get_duration()
+    print "How long do you want the time slots to be? (in mins)? : "
+    duration = gets.to_i
+    return duration
+  end
+
+  def get_start_time()
+    print "What do you want as the start time? (in 24hr) : "
+    get_time = gets.chomp
+    start_date_time = Time.parse(get_time)
+    return start_date_time
+  end
+
+  def date_to_time(date)
+    return date.strftime("%H:%M")
+  end
+
+  def add_break(time, duration)
+    breaks = {
+      time => duration
+    }
+  end
+
 end
-
-def get_duration()
-  print "How long do you want the time slots to be? (in mins)? : "
-  duration = gets.to_i
-  return duration
-end
-
-def get_start_time()
-  print "What do you want as the start time? (in 24hr) : "
-  get_time = gets.chomp
-  start_date_time = Time.parse(get_time)
-  return start_date_time
-end
-
-def date_to_time(date)
-  return date.strftime("%H:%M")
-end
-
-
 
 # ------------
 
@@ -51,44 +97,9 @@ students = students.shuffle()
 puts "*** Time Slotter! ***"
 duration = get_duration()
 start_date_time = get_start_time()
-start_time = date_to_time(start_date_time)
-
-puts `clear`
-
-print_list(students, start_date_time, duration)
-print "Want to add a break? Enter time (in 24hr) : "
-break_1 = gets.chomp
-print "How long should the break be? (mins): "
-break_1_duration = gets.to_i
-puts `clear`
-print_list(students, start_date_time, duration, break_1, break_1_duration)
-
-print "Want to add another break? Enter time (in 24hr) : "
-break_2 = gets.chomp
-puts `clear`
-print_list(students, start_date_time, duration, break_1, break_1_duration, break_2)
-
-print "Want to add another break? Enter time (in 24hr) : "
-break_3 = gets.chomp
-puts `clear`
-print_list(students, start_date_time, duration, break_1, break_1_duration, break_2, break_3)
-puts "I think that's quite enough breaks"
+print_list(students, start_date_time, duration, breaks)
+get_break_details(breaks)
 
 
 
 
-
-# puts `clear`
-
-# start_date_time = Time.parse(get_time) 
-# start_time = start_date_time.strftime("%H:%M")
-
-# students.each do |student|
-#   if break_time == start_date_time 
-#     puts "#{start_time}: BREAK"
-#   else 
-#     puts "#{start_time}: #{student}"
-#   end
-#   start_date_time = start_date_time + duration*60  
-#   start_time = start_date_time.strftime("%H:%M")
-# end
