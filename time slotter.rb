@@ -8,59 +8,43 @@ class TimeSlotter
     @start = nil
     @duration = nil
     @breaks = {}
+    # Insert student list in here....
     @students = %w( 
-      Suzanne
-      Bob
-      Adam
-      Graeme
-      Robert
-      Lewis
-      Chris
-      Ewen
-      Ross
-      Douglas
-      Colin
-      Rob
-      David
-      Leon
-      Alice
-      Josef
-      Kim
-      Richard
-      Ferdinando
-      Simon
+      
     )
   end
 
 
-  def print_list(names_list, start, duration, breaks)
+  def print_list()
 
-    names_list.each do |name|
+    current_start = @start
 
-      start_time = date_to_time(start)
+    @students.each do |name|
 
-      breaks.each do |key, value|
+      start_time = date_to_time(current_start)
+
+      @breaks.each do |key, value|
         if key == start_time 
           puts "#{start_time}: ----- BREAK ----"
-          start = start + value*60
-          start_time = date_to_time(start)
+          current_start = current_start + value*60
+          start_time = date_to_time(current_start)
         end
       end
 
       puts "#{start_time}: #{name}"
-      start = start + duration*60  
+      current_start = current_start + @duration*60  
     end
 
-    get_break_details(breaks)
+    get_break_details()
   end
 
-  def get_break_details(breaks)
+  def get_break_details()
     print "Want to add a break? Enter time (in 24hr) : "
     break_time = gets.chomp
     print "How long should the break be? (mins): "
     break_duration = gets.to_i
     @breaks[break_time] = break_duration
-    print_list(@students, @start, @duration, @breaks)
+    print_list()
   end
 
 
@@ -93,13 +77,13 @@ end
 
 TS = TimeSlotter.new()
 TS.students = TS.students.shuffle()
-
-
-puts "*** Time Slotter! ***"
+puts "************************************************"
+puts "***************** Time Slotter! ****************"
+puts "************************************************"
 TS.get_duration()
 TS.get_start_time()
-TS.print_list(TS.students, TS.start, TS.duration, TS.breaks)
-TS.get_break_details(breaks)
+TS.print_list()
+
 
 
 
