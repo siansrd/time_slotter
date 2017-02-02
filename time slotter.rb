@@ -41,7 +41,7 @@ class TimeSlotter
 
       breaks.each do |key, value|
         if key == start_time 
-          puts "#{start_time}: BREAK"
+          puts "#{start_time}: ----- BREAK ----"
           start = start + value*60
           start_time = date_to_time(start)
         end
@@ -59,22 +59,20 @@ class TimeSlotter
     break_time = gets.chomp
     print "How long should the break be? (mins): "
     break_duration = gets.to_i
-    TS.breaks[break_time] = break_duration
-    TS.print_list(@students, @start, @duration, @breaks)
+    @breaks[break_time] = break_duration
+    print_list(@students, @start, @duration, @breaks)
   end
 
 
   def get_duration()
     print "How long do you want the time slots to be? (in mins)? : "
-    duration = gets.to_i
-    return duration
+    @duration = gets.to_i
   end
 
   def get_start_time()
     print "What do you want as the start time? (in 24hr) : "
     get_time = gets.chomp
-    start_date_time = Time.parse(get_time)
-    return start_date_time
+    @start = Time.parse(get_time)
   end
 
   def date_to_time(date)
@@ -82,12 +80,14 @@ class TimeSlotter
   end
 
   def add_break(time, duration)
-    breaks = {
+    @breaks = {
       time => duration
     }
   end
 
 end
+
+
 
 # ------------
 
@@ -96,8 +96,8 @@ TS.students = TS.students.shuffle()
 
 
 puts "*** Time Slotter! ***"
-TS.duration = TS.get_duration()
-TS.start = TS.get_start_time()
+TS.get_duration()
+TS.get_start_time()
 TS.print_list(TS.students, TS.start, TS.duration, TS.breaks)
 TS.get_break_details(breaks)
 
