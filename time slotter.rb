@@ -41,9 +41,9 @@ class TimeSlotter
   end
 
   def get_break_details()
-    print "Want to add a break? Enter time (in 24hr) : "
+    print "Want to add a break? Enter time (in 24hr e.g '12:00') : "
     break_time = gets.chomp
-    print "How long should the break be? (mins): "
+    print "How long should the break be? (mins e.g '20'): "
     break_duration = gets.to_i
     @breaks[break_time] = break_duration
     print_list()
@@ -51,12 +51,12 @@ class TimeSlotter
 
 
   def get_duration()
-    print "How long do you want the time slots to be? (in mins)? : "
+    print "How long do you want the time slots to be? (in mins e.g '20')? : "
     @duration = gets.to_i
   end
 
   def get_start_time()
-    print "What do you want as the start time? (in 24hr) : "
+    print "What do you want as the start time? (in 24hr e.g '12:00') : "
     get_time = gets.chomp
     @start = Time.parse(get_time)
   end
