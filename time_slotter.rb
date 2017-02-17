@@ -18,7 +18,7 @@ class TimeSlotter
   end
 
   def print_list()
-
+    puts "\n "
     current_start = @start
 
     @students.each do |name|
@@ -41,9 +41,9 @@ class TimeSlotter
   end
 
   def get_break_details()
-    print "Want to add a break? Enter time (in 24hr e.g '12:00') : "
+    puts "\nWant to add a break? Enter time (in 24hr e.g '12:00') : "
     break_time = gets.chomp
-    print "How long should the break be? (mins e.g '20'): "
+    puts "\nHow long should the break be? (mins e.g '20'): "
     break_duration = gets.to_i
     @breaks[break_time] = break_duration
     print_list()
@@ -51,12 +51,12 @@ class TimeSlotter
 
 
   def get_duration()
-    print "How long do you want the time slots to be? (in mins e.g '20')? : "
+    puts "\nHow long do you want the time slots to be? (in mins e.g '20')? : "
     @duration = gets.to_i
   end
 
   def get_start_time()
-    print "What do you want as the start time? (in 24hr e.g '12:00') : "
+    puts "\nWhat do you want as the start time? (in 24hr e.g '12:00') : "
     get_time = gets.chomp
     @start = Time.parse(get_time)
   end
@@ -80,6 +80,7 @@ end
 TS = TimeSlotter.new()
 TS.create_list()
 TS.students = TS.students.shuffle()
+puts " "
 puts "************************************************"
 puts "***************** Time Slotter! ****************"
 puts "************************************************"
