@@ -8,12 +8,14 @@ class TimeSlotter
     @start = nil
     @duration = nil
     @breaks = {}
-    # Insert student list in here....
-    @students = %w( 
-      
-    )
+    @students = nil
   end
 
+  def create_list
+    file = File.open("list_of_names.txt")
+    names = file.readlines { |line| names << line }
+    @students = names
+  end
 
   def print_list()
 
@@ -76,6 +78,7 @@ end
 # ------------
 
 TS = TimeSlotter.new()
+TS.create_list()
 TS.students = TS.students.shuffle()
 puts "************************************************"
 puts "***************** Time Slotter! ****************"

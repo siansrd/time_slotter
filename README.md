@@ -5,5 +5,5 @@ Allows user to choose the start time, time slot length and add breaks.
 
 To run:
 - Download file
-- Paste in list of name where comment indicates
-- Run file with ```ruby time\ slotter.rb```
+- Paste in list of names in list_of_names.txt (with one name per line)
+- Run file with ```ruby time_slotter.rb```
