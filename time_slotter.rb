@@ -18,25 +18,71 @@ class TimeSlotter
     @students = names
   end
 
-  def print_list()
-    puts "\n "
+  def create_sessions
+    all_sessions = []
+    session = []
+
+    @students.each do |student|
+      session << student
+      if session.length == @sessions + 1
+        all_sessions << session 
+        session = []
+      end
+    end
+
+    all_sessions << session if session.length > 0 
+    return all_sessions
+  end
+
+  def add_times_to_sessions(all_sessions)
+    all_sessions_with_times = []
     current_start = @start
+    start_time = date_to_time(current_start)
+    
+    all_sessions.each do |session|
 
-    @students.each do |name|
-
-      start_time = date_to_time(current_start)
-
-      @breaks.each do |key, value|
-        if key == start_time 
-          puts start_time.ljust(10) + "----- BREAK ----"
-          current_start = current_start + value*60
+      @breaks.each do |break_time, break_duration| 
+        if break_time == start_time
+          all_sessions_with_times << { start_time => "----- BREAK -----" }
+          current_start = current_start + break_duration*60
           start_time = date_to_time(current_start)
         end
       end
-
-      puts start_time.ljust(10) + name
-      current_start = current_start + @duration*60  
+      
+      all_sessions_with_times << { start_time => session }
+      current_start = current_start + @duration*60 
+      start_time = date_to_time(current_start)
     end
+
+    return all_sessions_with_times
+  end
+
+
+
+  def print_list()
+    puts "\n "
+    all_sessions = create_sessions() 
+    all_sessions_with_times = add_times_to_sessions(all_sessions)
+    
+    all_sessions_with_times.each do | session |
+      puts session 
+    end
+
+    # @students.each do |name|
+    
+    #   start_time = date_to_time(current_start)
+
+    #   @breaks.each do |key, value|
+    #     if key == start_time 
+    #       puts start_time.ljust(10) + "----- BREAK ----"
+    #       current_start = current_start + value*60
+    #       start_time = date_to_time(current_start)
+    #     end
+    #   end
+
+    #   puts start_time.ljust(10) + name
+    #   current_start = current_start + @duration*60  
+    # end
 
     get_break_details()
   end
@@ -50,22 +96,21 @@ class TimeSlotter
     print_list()
   end
 
-  def get_number_of_sessions()
-    puts "\nHow many sessions per time slot? : "
-    sessions = gets.chomp
-    @sessions = sessions.to_i
-  end
-
-
   def get_duration()
     puts "\nHow long do you want the time slots to be? (in mins e.g '20')? : "
     @duration = gets.to_i
   end
 
   def get_start_time()
-    puts "\nWhat do you want as the start time? (in 24hr e.g '12:00') : "
+    puts "\nWhat is the start time? (in 24hr e.g '12:00') : "
     get_time = gets.chomp
     @start = Time.parse(get_time)
+  end
+
+  def get_sessions()
+    puts "\nHow many sessions per time slot? : "
+    sessions = gets.chomp
+    @sessions = sessions.to_i
   end
 
   def date_to_time(date)
@@ -93,13 +138,10 @@ puts "***************** Time Slotter! ****************"
 puts "************************************************"
 TS.get_duration()
 TS.get_start_time()
-TS.get_number_of_sessions()
+TS.get_sessions()
 TS.print_list()
 
 
-
-# format = "%-10s %-20s %-20s %s"
-# puts format % ['Time', 'Instructor1', 'Instructor2', 'Instructor2']
 
 
 
