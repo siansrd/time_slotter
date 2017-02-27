@@ -19,6 +19,7 @@ class TimeSlotter
 
   def print_list()
     puts "\n "
+    format = "%-8s %s"
     current_start = @start
 
     @students.each do |name|
@@ -27,13 +28,13 @@ class TimeSlotter
 
       @breaks.each do |key, value|
         if key == start_time 
-          puts "#{start_time}: ----- BREAK ----"
+          puts format % [start_time, '----- BREAK ----']
           current_start = current_start + value*60
           start_time = date_to_time(current_start)
         end
       end
 
-      puts "#{start_time}: #{name}"
+      puts format % [start_time, name]
       current_start = current_start + @duration*60  
     end
 
@@ -89,6 +90,9 @@ TS.get_start_time()
 TS.print_list()
 
 
+
+# format = "%-10s %-20s %-20s %s"
+# puts format % ['Time', 'Instructor1', 'Instructor2', 'Instructor2']
 
 
 
