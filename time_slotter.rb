@@ -9,6 +9,7 @@ class TimeSlotter
     @duration = nil
     @breaks = {}
     @students = nil
+    @sessions = nil
   end
 
   def create_list
@@ -19,7 +20,6 @@ class TimeSlotter
 
   def print_list()
     puts "\n "
-    format = "%-8s %s"
     current_start = @start
 
     @students.each do |name|
@@ -28,13 +28,13 @@ class TimeSlotter
 
       @breaks.each do |key, value|
         if key == start_time 
-          puts format % [start_time, '----- BREAK ----']
+          puts start_time.ljust(10) + "----- BREAK ----"
           current_start = current_start + value*60
           start_time = date_to_time(current_start)
         end
       end
 
-      puts format % [start_time, name]
+      puts start_time.ljust(10) + name
       current_start = current_start + @duration*60  
     end
 
@@ -48,6 +48,12 @@ class TimeSlotter
     break_duration = gets.to_i
     @breaks[break_time] = break_duration
     print_list()
+  end
+
+  def get_number_of_sessions()
+    puts "\nHow many sessions per time slot? : "
+    sessions = gets.chomp
+    @sessions = sessions.to_i
   end
 
 
@@ -87,6 +93,7 @@ puts "***************** Time Slotter! ****************"
 puts "************************************************"
 TS.get_duration()
 TS.get_start_time()
+TS.get_number_of_sessions()
 TS.print_list()
 
 
